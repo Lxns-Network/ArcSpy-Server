@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func requestAPI(endpoint string, cookie string) (map[string]interface{}, error) {
+func requestAPI(endpoint string, cookie string) (*WebAPIResponse, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("https://webapi.lowiro.com/webapi/%s", endpoint), nil)
 	if err != nil {
 		return nil, err
@@ -21,11 +21,12 @@ func requestAPI(endpoint string, cookie string) (map[string]interface{}, error) 
 
 	defer resp.Body.Close()
 
-	var data map[string]interface{}
+	var data WebAPIResponse
+
 	err = json.NewDecoder(resp.Body).Decode(&data)
 	if err != nil {
 		return nil, err
 	}
 
-	return data, nil
+	return &data, nil
 }

@@ -70,7 +70,7 @@ func SelectPlayerData(userId string) (map[string]interface{}, error) {
 	return playerData, nil
 }
 
-func SelectPlayerCookie(userId string) (string, error) {
+func SelectPlayerCookie(userId int) (string, error) {
 	db, err := sql.Open("sqlite", "./arcspy.db")
 	if err != nil {
 		return "", err

@@ -19,7 +19,7 @@ func setupRoutes(serverMux *http.ServeMux) {
 		mw.AuthMiddleware()))
 	serverMux.HandleFunc("/player/scores", mw.ApplyMiddleware(playerScoreHandler,
 		mw.AuthMiddleware()))
-	serverMux.HandleFunc("/webapi/user/me", mw.ApplyMiddleware(arcapi.WebAPIHandler,
+	serverMux.HandleFunc("/webapi/", mw.ApplyMiddleware(arcapi.WebAPIHandler,
 		mw.AuthMiddleware()))
 	serverMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		mw.RespondWithJSON(w, 404, "api not found", nil)
