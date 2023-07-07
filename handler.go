@@ -4,17 +4,11 @@ import (
 	"ArcSpy-Server/database"
 	mw "ArcSpy-Server/middleware"
 	"encoding/json"
-	"fmt"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 
 func playerSyncHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		mw.RespondWithJSON(w, 405, fmt.Sprintf("method %s is not allowed", r.Method), nil)
-		return
-	}
-
 	decoder := json.NewDecoder(r.Body)
 	var data database.SyncUserData
 	err := decoder.Decode(&data)
@@ -38,11 +32,6 @@ func playerSyncHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func playerDataHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		mw.RespondWithJSON(w, 405, fmt.Sprintf("method %s is not allowed", r.Method), nil)
-		return
-	}
-
 	userId := r.URL.Query().Get("user_id")
 	if userId == "" {
 		mw.RespondWithJSON(w, 400, "invalid query data", nil)
@@ -59,11 +48,6 @@ func playerDataHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func playerScoreHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		mw.RespondWithJSON(w, 405, fmt.Sprintf("method %s is not allowed", r.Method), nil)
-		return
-	}
-
 	userId := r.URL.Query().Get("user_id")
 	if userId == "" {
 		mw.RespondWithJSON(w, 400, "invalid query data", nil)

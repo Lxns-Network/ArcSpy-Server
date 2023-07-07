@@ -11,15 +11,19 @@ import (
 
 func setupRoutes(serverMux *http.ServeMux) {
 	serverMux.HandleFunc("/player/sync", mw.ApplyMiddleware(playerSyncHandler,
+		mw.MethodMiddleware("POST"),
 		mw.RateLimitMiddleware(mw.RateLimitOptions{
 			RateLimit:  1,
 			BurstLimit: 1,
 		})))
 	serverMux.HandleFunc("/player/data", mw.ApplyMiddleware(playerDataHandler,
+		mw.MethodMiddleware("GET"),
 		mw.AuthMiddleware()))
 	serverMux.HandleFunc("/player/scores", mw.ApplyMiddleware(playerScoreHandler,
+		mw.MethodMiddleware("GET"),
 		mw.AuthMiddleware()))
 	serverMux.HandleFunc("/webapi/", mw.ApplyMiddleware(arcapi.WebAPIHandler,
+		mw.MethodMiddleware("GET"),
 		mw.AuthMiddleware()))
 	serverMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		mw.RespondWithJSON(w, 404, "api not found", nil)
